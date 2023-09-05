@@ -31,7 +31,6 @@ export class LoginPageComponent implements OnInit {
             if (users && users.length > 0) {
               console.log('Login successful:', users);
               this.users = users; // Store the user information
-              // Clear form fields
               this.loginForm.reset();
               this.errorMessage = ''; // Clear any previous error messages
             } else {
