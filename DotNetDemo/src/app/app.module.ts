@@ -8,11 +8,13 @@ import { AppComponent } from './app.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { AuthenticationPageComponent } from './authentication-page/authentication-page.component';
 import { RouterModule } from '@angular/router';
+import { CsvUploadComponent } from './csv-upload/csv-upload.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
-    AuthenticationPageComponent
+    AuthenticationPageComponent,
+    CsvUploadComponent
   ],
   imports: [
     BrowserModule,
