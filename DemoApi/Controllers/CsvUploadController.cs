@@ -1,43 +1,50 @@
-﻿using DemoApi.DbContext;
+﻿using DemoApi.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http; // Add this for IFormFile
-using CsvHelper;
-using System.Globalization;
-using System.IO;
-using System.Threading.Tasks; // Add this for async
-using System.Formats.Asn1;
-using CsvHelper.Configuration;
-using DemoApi.Models;
-
+using System.Threading.Tasks;
+using System;
+using DemoApi.BussinesLayer.Interfaces;
 namespace DemoApi.Controllers
 {
-    [Route("api/csv")] // Add a route attribute to specify the route for this controller
-    public class CsvUploadController : ControllerBase // Inherit from ControllerBase
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CsvUploadController : ControllerBase
     {
-        private readonly AppDbContext _dbContext;
-
-        public CsvUploadController(AppDbContext dbContext)
+        private readonly ICsvUpload _Upload;
+    public CsvUploadController(ICsvUpload upload)
+    {
+        _Upload = upload;
+    }
+    [HttpPost("UploadFile")]
+    public async Task<IActionResult> UploadFile(IFormFile file)
+    {
+        if (CheckIfCSVFile(file))
         {
-            _dbContext = dbContext;
+            var fileUploader = await _Upload.WriteFile(file);
+            return Ok(fileUploader);
         }
-
-        [HttpPost("upload")]
-        public async Task<IActionResult> UploadCsv(IFormFile file)
+        else
         {
-            if (file == null || file.Length == 0)
-            {
-                return BadRequest("Invalid file.");
-            }
-
-            using (var reader = new StreamReader(file.OpenReadStream()))
-            using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)))
-            {
-                var records = csv.GetRecords<CsvUpload>().ToList();
-                _dbContext.CsvUploads.AddRange(records);
-                await _dbContext.SaveChangesAsync();
-            }
-
-            return Ok("CSV data uploaded successfully.");
+            return BadRequest(new { message = "Invlaid File Extension" });
+        }
+    }
+    //[HttpPost("UploadCsv")]
+    //public async Task<IActionResult> UploadCsv([FromBody] CsvUpload upload)
+    //{
+    //    try
+    //    {
+    //        //var uploadModel = await _Upload.GetUploadCSVAsync(upload);
+    //        //return Ok(uploadModel);
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        return BadRequest(ex);
+    //    }
+    //}
+        private bool CheckIfCSVFile(IFormFile file)
+        {
+            var extension = "." + file.FileName.Split('.')[file.FileName.Split('.').Length - 1];
+            return (extension == ".csv" || extension == ".CSV");
         }
     }
 }

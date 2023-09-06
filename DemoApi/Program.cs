@@ -1,5 +1,8 @@
+using DemoApi.BussinesLayer;
+using DemoApi.BussinesLayer.Interfaces;
 using DemoApi.DbContext;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 
 
@@ -26,7 +29,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("StudentDetails")
         ));
+IServiceCollection services = new ServiceCollection();
+
 var app = builder.Build();
+services.AddTransient<ICsvUpload, CsvUpload>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

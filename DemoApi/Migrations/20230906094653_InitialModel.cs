@@ -49,6 +49,20 @@ namespace DemoApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CsvUploads",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Age = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CsvUploads", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Logins",
                 columns: table => new
                 {
@@ -242,6 +256,9 @@ namespace DemoApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "CsvUploads");
 
             migrationBuilder.DropTable(
                 name: "Logins");

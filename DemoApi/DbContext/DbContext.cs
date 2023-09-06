@@ -11,5 +11,6 @@ namespace DemoApi.DbContext
         public DbSet<Student> Students { get; set; } 
         public DbSet<Login> Logins { get; set; }
         public DbSet<CsvUpload> CsvUploads { get; set; }
+       
     }
 }
