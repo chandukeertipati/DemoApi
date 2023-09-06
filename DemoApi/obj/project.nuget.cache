@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "E1+JY5LgTTYmivB5wTLLKOmyrVN6cveEIDwpf7KEH0eLhD8dZg5YEnUeQCdzfYSXx/cpxJNmIz67dACi5GGY4g==",
+  "dgSpecHash": "CoDYBx+mQFm6pRA3rRjYalFJhaej0smEni2iIkhcFUYbw7LpkpT/Jf4SdWKTNmMyIYEJX1NTXLn0iroWXuIJpQ==",
   "success": true,
-  "projectFilePath": "C:\\API VS\\DemoApi\\DemoApi\\DemoApi.csproj",
+  "projectFilePath": "c:\\API VS\\DemoApi\\DemoApi\\DemoApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ChanduKeertipati\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\ChanduKeertipati\\.nuget\\packages\\csvhelper\\30.0.1\\csvhelper.30.0.1.nupkg.sha512",
