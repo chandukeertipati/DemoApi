@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -19,12 +19,19 @@ export class AuthenticationService {
   //   return this.http.post(`${this.apiUrl}`, data);
   // }
 
-  private baseUrl = 'https://localhost:7232/api';
+  private apiUrl = 'https://localhost:7232/api/Register'; // Update with your actual API URL
 
   constructor(private http: HttpClient) { }
 
-  createUser(userDetails: any): Observable<any> {
-    const url = `${this.baseUrl}/Login`;
-    return this.http.post(url, userDetails);
+  createUser(userData: any): Observable<any> {
+    // Set up headers if needed
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    // Make the POST request to create a new user
+    return this.http.post(this.apiUrl, userData, httpOptions);
   }
 }

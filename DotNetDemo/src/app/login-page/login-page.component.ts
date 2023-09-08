@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginPageServiceService } from '../login-page-service.service';
-import { HttpClient } from '@angular/common/http';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoginPageServiceService } from '../login-page-service.service';
 
 @Component({
   selector: 'app-login-page',
@@ -12,9 +11,13 @@ import { Router } from '@angular/router';
 export class LoginPageComponent implements OnInit {
   loginForm!: FormGroup;
   errorMessage: string = '';
-  users: any[] = []; // Array to store user information
+  users: any[] = [];
 
-  constructor(private fb: FormBuilder, private authService: LoginPageServiceService, private router: Router) { }
+  constructor(
+    private fb: FormBuilder,
+    private authService: LoginPageServiceService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -25,17 +28,22 @@ export class LoginPageComponent implements OnInit {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value)
+      const email = this.loginForm.get('email')?.value;
+      const password = this.loginForm.get('password')?.value;
+
+      this.authService.login(email, password)
         .subscribe(
-          users => {
-            if (users && users.length > 0) {
-              console.log('Login successful:', users);
-              this.users = users; // Store the user information
+          (response: any) => {
+            if (response && response.length > 0) {
+              console.log('Login successful:', response);
+              this.users = response;
               this.loginForm.reset();
-              this.errorMessage = ''; // Clear any previous error messages
+              this.errorMessage = '';
+              // Redirect to another page or perform actions after successful login
+              // this.router.navigate(['/dashboard']); // Example: Navigate to the dashboard page
             } else {
               console.error('Login failed: No users found');
-              this.errorMessage = 'Invalid email or password. Please try again.'; // Display error message
+              this.errorMessage = 'Invalid email or password. Please try again.';
             }
           },
           error => {
@@ -46,5 +54,3 @@ export class LoginPageComponent implements OnInit {
     }
   }
 }
-
-  

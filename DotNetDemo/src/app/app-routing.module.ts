@@ -4,7 +4,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { AuthenticationPageComponent } from './authentication-page/authentication-page.component';
 
 const routes: Routes = [
-  // { path: '', component: LoginPageComponent },
+  { path: '', component: AuthenticationPageComponent },
   { path: 'authentication', component: AuthenticationPageComponent },
   { path: 'login', component: LoginPageComponent }
 ];

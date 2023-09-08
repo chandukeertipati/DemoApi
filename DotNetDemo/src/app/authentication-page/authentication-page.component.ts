@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './authentication-page.component.html',
   styleUrls: ['./authentication-page.component.css']
 })
-export class AuthenticationPageComponent  implements OnInit {
+export class AuthenticationPageComponent implements OnInit {
   userForm!: FormGroup;
 
   constructor(private fb: FormBuilder, private userService: AuthenticationService) { }
@@ -28,7 +28,13 @@ export class AuthenticationPageComponent  implements OnInit {
       this.userService.createUser(this.userForm.value)
         .subscribe(
           response => {
-            console.log('User created:', response);
+            // Check if the response is valid JSON
+            if (response && typeof response === 'object') {
+              console.log('User created:', response);
+            } else {
+              // Handle non-JSON response (e.g., success message)
+              console.log('Non-JSON response:', response);
+            }
             // Reset the form
             this.userForm.reset();
           },
@@ -38,8 +44,5 @@ export class AuthenticationPageComponent  implements OnInit {
         );
     }
   }
-
-
-
-
+  
 }

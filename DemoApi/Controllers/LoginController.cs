@@ -1,9 +1,9 @@
 ﻿using DemoApi.DbContext;
 using DemoApi.Models;
-using DemoApi.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DemoApi.Controllers
 {
@@ -18,41 +18,56 @@ namespace DemoApi.Controllers
             _context = context;
         }
 
-        // POST: api/Login
         [HttpPost]
-        public IActionResult PostLogin([FromBody] Login login)
+        public async Task<IActionResult> Login([FromBody] Login model)
         {
-            if (login == null)
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Invalid data");
+                return BadRequest(ModelState);
             }
 
-            // Save all fields to the database
-            _context.Logins.Add(login);
-            _context.SaveChanges();
+            // Retrieve the user from the database based on the provided email.
+            var user = await _context.Logins.FirstOrDefaultAsync(u => u.Email == model.Email);
 
-            return Ok("Login data saved successfully");
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+            else
+            {
+                if (model.Email==user.Email && model.Password==user.Password)
+                {
+                    return Ok("Login successful");
+
+                }
+                return BadRequest("invalid user");
+            }
+
+            // Check the password (You should hash and compare it securely).
+           
+
+            // Perform any necessary user authentication here.
+
         }
 
-        // GET: api/Login/credentials/{id}
-        [HttpGet("credentials/{id}")]
-        public IActionResult GetLoginCredentials(int id)
+        [HttpGet("{email}")]
+        public async Task<IActionResult> GetUserEmail(string email)
         {
-            var login = _context.Logins.FirstOrDefault(l => l.Id == id);
-
-            if (login == null)
+            if (string.IsNullOrWhiteSpace(email))
             {
-                return NotFound();
+                return BadRequest("Email is required.");
             }
 
-            // Extract only email and password
-            var credentials = new LoginDto
-            {
-                Email = login.Email,
-                Password = login.Password
-            };
+            // Retrieve the user from the database based on the provided email.
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
 
-            return Ok(credentials);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            // Return only the email address, not the password.
+            return Ok(new { Email = user.Email });
         }
     }
 }

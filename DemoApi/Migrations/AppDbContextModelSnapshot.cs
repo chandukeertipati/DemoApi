@@ -44,6 +44,20 @@ namespace DemoApi.Migrations
 
             modelBuilder.Entity("DemoApi.Models.Login", b =>
                 {
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Email");
+
+                    b.ToTable("Login");
+                });
+
+            modelBuilder.Entity("DemoApi.Models.Register", b =>
+                {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
