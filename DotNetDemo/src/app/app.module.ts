@@ -9,12 +9,14 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { AuthenticationPageComponent } from './authentication-page/authentication-page.component';
 import { RouterModule } from '@angular/router';
 import { CsvUploadComponent } from './csv-upload/csv-upload.component';
+import { PracticeComponent } from './practice/practice.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
     AuthenticationPageComponent,
-    CsvUploadComponent
+    CsvUploadComponent,
+    PracticeComponent
   ],
   imports: [
     BrowserModule,

@@ -23,7 +23,7 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient) { }
 
-  createUser(userData: any): Observable<any> {
+  registerUser(userData: any): Observable<any> {
     // Set up headers if needed
     const httpOptions = {
       headers: new HttpHeaders({
@@ -31,7 +31,7 @@ export class AuthenticationService {
       })
     };
 
-    // Make the POST request to create a new user
+    // Make the POST request to register a new user
     return this.http.post(this.apiUrl, userData, httpOptions);
   }
 }
