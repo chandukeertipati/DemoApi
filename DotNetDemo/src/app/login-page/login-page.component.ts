@@ -11,7 +11,6 @@ import { LoginPageServiceService } from '../login-page-service.service';
 export class LoginPageComponent implements OnInit {
   loginForm!: FormGroup;
   errorMessage: string = '';
-  users: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -31,20 +30,16 @@ export class LoginPageComponent implements OnInit {
       const email = this.loginForm.get('email')?.value;
       const password = this.loginForm.get('password')?.value;
 
-      this.authService.getAllLogins()
+      this.authService.validateLogin(email, password)
         .subscribe(
-          (response: any) => {
-            if (response && response.length > 0) {
-              console.log('Login successful:', response);
-              this.users = response;
+          isValid => {
+            if (isValid) {
+              console.log('Login successful');
               this.loginForm.reset();
               this.router.navigate(['csvUpload']);
-              
               this.errorMessage = '';
-              // Redirect to another page or perform actions after successful login
-              // this.router.navigate(['/dashboard']); // Example: Navigate to the dashboard page
             } else {
-              console.error('Login failed: No users found');
+              console.error('Login failed: Invalid email or password');
               this.errorMessage = 'Invalid email or password. Please try again.';
             }
           },
