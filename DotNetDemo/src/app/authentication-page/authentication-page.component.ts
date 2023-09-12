@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../authentication.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthenticationService } from '../authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-authentication-page',
@@ -8,42 +9,41 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./authentication-page.component.css']
 })
 export class AuthenticationPageComponent implements OnInit {
- userForm!: FormGroup;
+  userForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthenticationService) { }
-
-  ngOnInit() {
+  constructor(
+    private fb: FormBuilder,
+    private registrationService: AuthenticationService,private router:Router
+  ) {}
+  ngOnInit(): void {
+    
+ 
     this.userForm = this.fb.group({
-      // Modify the form fields as needed for user registration
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      userName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      userName: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', Validators.required]
     });
   }
 
   onSubmit() {
     if (this.userForm.valid) {
-      this.authService.registerUser(this.userForm.value)
+      const formData = this.userForm.value;
+      this.registrationService.registerUser(formData)
         .subscribe(
-          (response: any) => {
-            if (response && typeof response === 'object') {
-              console.log('User registration successful:', response);
-            } else {
-              // Handle non-JSON response (e.g., success message)
-              console.log('Non-JSON response:', response);
-            }
-            // Reset the form
+          (response) => {
+            console.log('Registration successful', response);
+            alert("login successfull!")
             this.userForm.reset();
+            this.router.navigate(['login']);
           },
           (error) => {
-            console.error('Error during user registration:', error);
+            console.error('Registration error', error);
           }
         );
     }
   }
-  
-  
-}
+  }
+

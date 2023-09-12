@@ -7,31 +7,12 @@ import { Observable } from 'rxjs';
 })
 export class AuthenticationService {
 
-  // private apiUrl = 'https://localhost:7232/api/Auth';
 
-  // constructor(private http: HttpClient) { }
+  private apiUrl = 'https://localhost:7232/api/Register';
 
-  // postLoginData(data: any) {
-  //   return this.http.post(`${this.apiUrl}`, data);
-  // }
+  constructor(private http: HttpClient) {}
 
-  // postRegistrationData(data: any) {
-  //   return this.http.post(`${this.apiUrl}`, data);
-  // }
-
-  private apiUrl = 'https://localhost:7232/api/Register'; // Update with your actual API URL
-
-  constructor(private http: HttpClient) { }
-
-  registerUser(userData: any): Observable<any> {
-    // Set up headers if needed
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-
-    // Make the POST request to register a new user
-    return this.http.post(this.apiUrl, userData, httpOptions);
+  registerUser(formData: any): Observable<any> {
+    return this.http.post(this.apiUrl, formData);
   }
 }

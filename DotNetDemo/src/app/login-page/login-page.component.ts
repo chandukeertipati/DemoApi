@@ -31,13 +31,15 @@ export class LoginPageComponent implements OnInit {
       const email = this.loginForm.get('email')?.value;
       const password = this.loginForm.get('password')?.value;
 
-      this.authService.login(email, password)
+      this.authService.getAllLogins()
         .subscribe(
           (response: any) => {
             if (response && response.length > 0) {
               console.log('Login successful:', response);
               this.users = response;
               this.loginForm.reset();
+              this.router.navigate(['csvUpload']);
+              
               this.errorMessage = '';
               // Redirect to another page or perform actions after successful login
               // this.router.navigate(['/dashboard']); // Example: Navigate to the dashboard page

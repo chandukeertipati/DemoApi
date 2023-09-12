@@ -15,16 +15,14 @@
     //   const url = `${this.baseUrl}/Login/credentials/all`; // Assuming API endpoint for all users
     //   return this.http.post<any[]>(url, credentials);
     // }
-    private baseUrl = 'https://localhost:7232/api/Login'; // Replace with your actual API URL
+    private apiUrl = 'https://localhost:7232/api/Register';
 
-  constructor(private http: HttpClient) {}
-
-  login(email: string, password: string): Observable<any> {
-    const body = { email, password };
-
-    // Assuming your API endpoint for login accepts POST requests
-    return this.http.post(this.baseUrl, body);
-  }
+    constructor(private http: HttpClient) {}
+  
+    // Create a method to get all login credentials
+    getAllLogins(): Observable<any[]> {
+      return this.http.get<any[]>(this.apiUrl);
+    }
   }
   
 

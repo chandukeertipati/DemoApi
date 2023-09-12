@@ -2,7 +2,7 @@
 using DemoApi.Models;
 using DemoApi.Dtos;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DemoApi.Controllers
@@ -18,7 +18,7 @@ namespace DemoApi.Controllers
             _context = context;
         }
 
-        // POST: api/Login
+        // POST: api/Register
         [HttpPost]
         public IActionResult PostLogin([FromBody] Register login)
         {
@@ -31,28 +31,23 @@ namespace DemoApi.Controllers
             _context.Logins.Add(login);
             _context.SaveChanges();
 
-            return Ok("Login data saved successfully");
+            return Ok(new { Message = "Login data saved successfully" });
         }
 
-        // GET: api/Login/credentials/{id}
-        [HttpGet("credentials/{id}")]
-        public IActionResult GetLoginCredentials(int id)
+        // GET: api/Register
+        [HttpGet]
+        public IActionResult GetAllLogins()
         {
-            var login = _context.Logins.FirstOrDefault(l => l.Id == id);
+            // Retrieve all records and select only email and password
+            var credentialsList = _context.Logins
+                .Select(login => new LoginDto
+                {
+                    Email = login.Email,
+                    Password = login.Password
+                })
+                .ToList();
 
-            if (login == null)
-            {
-                return NotFound();
-            }
-
-            // Extract only email and password
-            var credentials = new LoginDto
-            {
-                Email = login.Email,
-                Password = login.Password
-            };
-
-            return Ok(credentials);
+            return Ok(credentialsList);
         }
     }
 }
