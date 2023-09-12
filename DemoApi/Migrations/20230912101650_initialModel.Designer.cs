@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DemoApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230906094653_InitialModel")]
-    partial class InitialModel
+    [Migration("20230912101650_initialModel")]
+    partial class initialModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,7 +44,35 @@ namespace DemoApi.Migrations
                     b.ToTable("CsvUploads");
                 });
 
-            modelBuilder.Entity("DemoApi.Models.Login", b =>
+            modelBuilder.Entity("DemoApi.Models.Expense", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Expenses");
+                });
+
+            modelBuilder.Entity("DemoApi.Models.Register", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

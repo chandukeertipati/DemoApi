@@ -36,7 +36,7 @@ export class LoginPageComponent implements OnInit {
             if (isValid) {
               console.log('Login successful');
               this.loginForm.reset();
-              this.router.navigate(['csvUpload']);
+              this.router.navigate(['Navbar']);
               this.errorMessage = '';
             } else {
               console.error('Login failed: Invalid email or password');

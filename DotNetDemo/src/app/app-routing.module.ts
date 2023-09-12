@@ -3,12 +3,18 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { AuthenticationPageComponent } from './authentication-page/authentication-page.component';
 import { CsvUploadComponent } from './csv-upload/csv-upload.component';
+import { ExpenseInputComponent } from './expense-input/expense-input.component';
+import { ExpenseReportComponent } from './expense-report/expense-report.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 const routes: Routes = [
   { path: '', component: AuthenticationPageComponent },
   { path: 'authentication', component: AuthenticationPageComponent },
   { path: 'login', component: LoginPageComponent },
-  {path:'csvUpload',component:CsvUploadComponent}
+  {path:'csvUpload',component:CsvUploadComponent},
+  {path:'expenseInput',component:ExpenseInputComponent},
+  {path:'expenseReport',component:ExpenseReportComponent},
+  {path:'Navbar',component:NavbarComponent}
 ];
 
 @NgModule({

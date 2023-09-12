@@ -1,0 +1,15 @@
+/* animations.css */
+
+/* Define the initial state of the element */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  }
+  
+  /* Define the final state of the element when it's visible */
+  .fade-in.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  

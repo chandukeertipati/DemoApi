@@ -10,13 +10,19 @@ import { AuthenticationPageComponent } from './authentication-page/authenticatio
 import { RouterModule } from '@angular/router';
 import { CsvUploadComponent } from './csv-upload/csv-upload.component';
 import { PracticeComponent } from './practice/practice.component';
+import { ExpenseInputComponent } from './expense-input/expense-input.component';
+import { ExpenseReportComponent } from './expense-report/expense-report.component';
+import { NavbarComponent } from './navbar/navbar.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
     AuthenticationPageComponent,
     CsvUploadComponent,
-    PracticeComponent
+    PracticeComponent,
+    ExpenseInputComponent,
+    ExpenseReportComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

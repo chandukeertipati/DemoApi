@@ -1,0 +1,21 @@
+<!-- src/app/expense-report/expense-report.component.html -->
+
+<div class="container mt-4">
+    <h2>Expense Report</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Category</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let expense of expenses">
+          <td>{{ expense.description }}</td>
+          <td>{{ expense.amount | currency }}</td>
+          <td>{{ expense.category }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
