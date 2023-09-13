@@ -1,4 +1,4 @@
-
+<!-- 
 <div class="paper-card">
   <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
     <label for="firstName">First Name</label>
@@ -7,17 +7,17 @@
     <label for="lastName">Last Name</label>
     <input type="text" id="lastName" formControlName="lastName">
   
-    <label for="email">Email</label>
-    <input type="email" id="email" formControlName="email">
+    <label for="email">Email*</label>
+    <input type="email" id="email" formControlName="email" required>
   
     <label for="userName">Username</label>
     <input type="text" id="userName" formControlName="userName">
   
-    <label for="password">Password</label>
-    <input type="password" id="password" formControlName="password">
+    <label for="password">Password*</label>
+    <input type="password" id="password" formControlName="password" required>
   
-    <label for="confirmPassword">Confirm Password</label>
-    <input type="password" id="confirmPassword" formControlName="confirmPassword">
+    <label for="confirmPassword">Confirm Password*</label>
+    <input type="password" id="confirmPassword" formControlName="confirmPassword" required="">
   
     <button type="submit" [disabled]="userForm.invalid">Submit</button>
   </form>
@@ -27,4 +27,60 @@
   </div>
   
 </div>
+   -->
+
+   <div class="paper-card">
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <label for="firstName">First Name*</label>
+      <input type="text" id="firstName" formControlName="firstName">
+      <div *ngIf="userForm.get('firstName')?.hasError('required') && userForm.get('firstName')?.touched" class="invalid">
+        First Name is required.
+      </div>
+  
+      <label for="lastName">Last Name*</label>
+      <input type="text" id="lastName" formControlName="lastName">
+      <div *ngIf="userForm.get('lastName')?.hasError('required') && userForm.get('lastName')?.touched" class="invalid">
+        Last Name is required.
+      </div>
+  
+      <label for="email">Email*</label>
+      <input type="email" id="email" formControlName="email" required>
+      <div *ngIf="userForm.get('email')?.hasError('required') && userForm.get('email')?.touched" class="invalid">
+        Email is required.
+      </div>
+      <div *ngIf="userForm.get('email')?.hasError('email') && userForm.get('email')?.touched" class="invalid">
+        Invalid email format.
+      </div>
+  
+      <label for="userName">Username*</label>
+      <input type="text" id="userName" formControlName="userName">
+      <div *ngIf="userForm.get('userName')?.hasError('required') && userForm.get('userName')?.touched" class="invalid">
+        Username is required.
+      </div>
+  
+      <label for="password">Password*</label>
+      <input type="password" id="password" formControlName="password" required>
+      <div *ngIf="userForm.get('password')?.hasError('required') && userForm.get('password')?.touched" class="invalid">
+        Password is required.
+      </div>
+      <div *ngIf="userForm.get('password')?.hasError('minlength') && userForm.get('password')?.touched" class="invalid">
+        Password must be at least 8 characters long.
+      </div>
+  
+      <label for="confirmPassword">Confirm Password*</label>
+      <input type="password" id="confirmPassword" formControlName="confirmPassword" required>
+      <div *ngIf="userForm.get('confirmPassword')?.hasError('required') && userForm.get('confirmPassword')?.touched" class="invalid">
+        Confirm Password is required.
+      </div>
+      <div *ngIf="userForm.hasError('passwordMismatch') && userForm.get('confirmPassword')?.touched" class="invalid">
+        Passwords do not match.
+      </div>
+  
+      <button type="submit" [disabled]="userForm.invalid">Submit</button>
+    </form>
+  
+    <div class="create-link">
+      <a routerLink="/login">Already have an account? Login</a>
+    </div>
+  </div>
   

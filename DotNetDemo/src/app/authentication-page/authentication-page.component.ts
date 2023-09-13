@@ -25,7 +25,10 @@ export class AuthenticationPageComponent implements OnInit {
       userName: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', Validators.required]
+    },{
+      validator: this.passwordMatchValidator // Add the custom validator
     });
+
   }
 
   onSubmit() {
@@ -43,6 +46,16 @@ export class AuthenticationPageComponent implements OnInit {
             console.error('Registration error', error);
           }
         );
+    }
+  }
+  passwordMatchValidator(control: FormGroup): { [key: string]: boolean } | null {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
+
+    if (!password || !confirmPassword || password.value === confirmPassword.value) {
+      return null; // Passwords match
+    } else {
+      return { passwordMismatch: true }; // Passwords don't match
     }
   }
   }
