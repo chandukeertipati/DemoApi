@@ -1,4 +1,4 @@
-<!-- src/app/expense-report/expense-report.component.html -->
+<!-- src/app/expense-report/expense-report.component.html
 
 <div class="container mt-4">
     <h2>Expense Report</h2>
@@ -19,4 +19,36 @@
       </tbody>
     </table>
     <button class="btn btn-secondary" (click)="goBack()">Go Back</button>
+  </div> -->
+  <div class="container mt-4">
+    <h2>Expense Report</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Category</th>
+          <th>Action</th> <!-- Add a new column for Edit and Delete buttons -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let expense of expenses">
+          <td>{{ expense.description }}</td>
+          <td>{{ expense.amount | currency: 'INR' }}</td>
+          <td>{{ expense.category }}</td>
+          <td>
+            <button class="btn btn-primary" (click)="editExpense(expense)">Edit</button>
+            <button class="btn btn-danger" (click)="deleteExpense(expense.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="form-group">
+      <label for="expenseId">Get Expense by ID:</label>
+      <input type="number" class="form-control" id="expenseId" [(ngModel)]="selectedExpenseId">
+      <button class="btn btn-info" (click)="getExpenseById()">Get By ID</button>
+    </div>
+    
+    <button class="btn btn-secondary" (click)="goBack()">Go Back</button>
   </div>
+  

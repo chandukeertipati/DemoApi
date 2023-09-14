@@ -1,33 +1,3 @@
-<!-- 
-<div class="paper-card">
-  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-    <label for="firstName">First Name</label>
-    <input type="text" id="firstName" formControlName="firstName">
-  
-    <label for="lastName">Last Name</label>
-    <input type="text" id="lastName" formControlName="lastName">
-  
-    <label for="email">Email*</label>
-    <input type="email" id="email" formControlName="email" required>
-  
-    <label for="userName">Username</label>
-    <input type="text" id="userName" formControlName="userName">
-  
-    <label for="password">Password*</label>
-    <input type="password" id="password" formControlName="password" required>
-  
-    <label for="confirmPassword">Confirm Password*</label>
-    <input type="password" id="confirmPassword" formControlName="confirmPassword" required="">
-  
-    <button type="submit" [disabled]="userForm.invalid">Submit</button>
-  </form>
-
-  <div class="create-link">
-    <a routerLink="/login">Already have an account? Login</a>
-  </div>
-  
-</div>
-   -->
 
    <div class="paper-card">
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
@@ -81,6 +51,6 @@
   
     <div class="create-link">
       <a routerLink="/login">Already have an account? Login</a>
-    </div>
+    </div> 
   </div>
   
