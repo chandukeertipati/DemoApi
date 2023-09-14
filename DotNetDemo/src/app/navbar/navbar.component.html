@@ -14,5 +14,9 @@
       </div>
     </div>
   </nav>
+  <button (click)="toggleCalculator()"  class="contact-us-button">Open Calculator</button>
+  <app-calculator *ngIf="showCalculator"></app-calculator>
 
-  
+
+
+  <!-- routerLink="/Calculator" -->

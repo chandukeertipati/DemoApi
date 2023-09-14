@@ -6,6 +6,7 @@ import { CsvUploadComponent } from './csv-upload/csv-upload.component';
 import { ExpenseInputComponent } from './expense-input/expense-input.component';
 import { ExpenseReportComponent } from './expense-report/expense-report.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { CalculatorComponent } from './calculator/calculator.component';
 
 const routes: Routes = [
   { path: '', component: AuthenticationPageComponent },
@@ -14,7 +15,8 @@ const routes: Routes = [
   {path:'csvUpload',component:CsvUploadComponent},
   {path:'expenseInput',component:ExpenseInputComponent},
   {path:'expenseReport',component:ExpenseReportComponent},
-  {path:'Navbar',component:NavbarComponent}
+  {path:'Navbar',component:NavbarComponent},
+  {path:'Calculator',component:CalculatorComponent}
 ];
 
 @NgModule({

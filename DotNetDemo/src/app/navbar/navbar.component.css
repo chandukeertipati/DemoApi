@@ -74,4 +74,23 @@ body {
   .navbar a:hover {
     background-color: #00695c;
   }
+
+  /* Add this CSS code to your component's CSS file */
+
+.contact-us-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #00897b;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.contact-us-button:hover {
+  background-color: #00695c;
+}
+
   

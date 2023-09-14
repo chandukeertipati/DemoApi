@@ -5,5 +5,6 @@
       <button type="submit" [disabled]="!selectedFile">Upload</button>
     </form>
     <p *ngIf="uploadSuccess">{{ uploadMessage }}</p>
+    <button class="input-button" (click)="goBack()">Go Back</button>
   </div>
   

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { CsvUploadServiceService } from '../csv-upload-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-csv-upload',
@@ -12,7 +13,7 @@ export class CsvUploadComponent implements OnInit {
   uploadSuccess = false;
   uploadMessage = '';
 
-  constructor(private csvUploadService: CsvUploadServiceService) {}
+  constructor(private csvUploadService: CsvUploadServiceService,private router:Router) {}
   ngOnInit(): void {
   }
   onFileSelected(event: any): void {
@@ -35,5 +36,7 @@ export class CsvUploadComponent implements OnInit {
       }
     );
   }
-
+  goBack() {
+    this.router.navigate(['/Navbar']); // Replace '/input' with the route to your input component
+  }
 }

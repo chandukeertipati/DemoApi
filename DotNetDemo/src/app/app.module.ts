@@ -13,6 +13,8 @@ import { PracticeComponent } from './practice/practice.component';
 import { ExpenseInputComponent } from './expense-input/expense-input.component';
 import { ExpenseReportComponent } from './expense-report/expense-report.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { CalculatorComponent } from './calculator/calculator.component';
+// import { DragDropModule } from '@angular/cdk/drag-drop';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +24,8 @@ import { NavbarComponent } from './navbar/navbar.component';
     PracticeComponent,
     ExpenseInputComponent,
     ExpenseReportComponent,
-    NavbarComponent
+    NavbarComponent,
+    CalculatorComponent
   ],
   imports: [
     BrowserModule,
