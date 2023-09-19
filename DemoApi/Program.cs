@@ -30,6 +30,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("StudentDetails")
         ));
 IServiceCollection services = new ServiceCollection();
+services.AddMvc();
+builder.Services.AddScoped<IExpenseCsv, ExpenseCsvService>();
 
 var app = builder.Build();
 services.AddTransient<ICsvUpload, CsvUpload>();

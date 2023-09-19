@@ -12,6 +12,7 @@ namespace DemoApi.DbContext
         public DbSet<Register> Logins { get; set; }
         public DbSet<CsvUpload> CsvUploads { get; set; }
         public DbSet<Expense> Expenses { get; set; }
+        public DbSet<ExpenseCsv> ExpenseCsv { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
