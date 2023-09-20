@@ -1,45 +1,58 @@
-﻿using CsvHelper;
-using CsvHelper.Configuration;
-using DemoApi.BussinesLayer.Interfaces;
-using DemoApi.DbContext;
-using DemoApi.Dtos;
-using DemoApi.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using CsvHelper;
+using CsvHelper.Configuration;
+using DemoApi.DbContext;
+using DemoApi.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
-[ApiController]
-[Route("[controller]")]
-public class ExpenseCsvController : ControllerBase
+namespace DemoApi.Controllers
 {
-    private readonly IExpenseCsv _csvService;
-
-
-    public ExpenseCsvController(IExpenseCsv csvService)
+    [ApiController]
+    [Route("api/csv")]
+    public class ExpenseCsvController : ControllerBase
     {
-        _csvService = csvService;
-    }
+        private readonly AppDbContext _context;
 
-    [HttpPost("write-employee-csv")]
-    public async Task<IActionResult> WriteEmployeeCSV([FromBody] List<ExpenseCsv> employees)
-    {
-        _csvService.WriteCSV<ExpenseCsv>(employees);
+        public ExpenseCsvController(AppDbContext context)
+        {
+            _context = context;
+        }
 
-        return Ok();
-    }
+        [HttpPost("upload")]
+        public async Task<IActionResult> UploadCsv([FromForm] IFormFile file)
+        {
+            try
+            {
+                if (file == null || file.Length == 0)
+                {
+                    return BadRequest("No file uploaded.");
+                }
 
-    [HttpPost("read-employees-csv")]
-    public async Task<IActionResult> GetEmployeeCSV([FromForm] IFormFileCollection file)
-    {
-        var employees = _csvService.ReadCSV<ExpenseCsv>(file[0].OpenReadStream());
+                // Parse the CSV data into objects
+                var records = new List<ExpenseCsv>();
+                using (var streamReader = new StreamReader(file.OpenReadStream()))
+                using (var csvReader = new CsvReader(streamReader, new CsvConfiguration(CultureInfo.InvariantCulture)))
+                {
+                    records = csvReader.GetRecords<ExpenseCsv>().ToList();
+                }
 
-        return Ok(employees);
+                // Save the records to the database
+                _context.ExpenseCsv.AddRange(records);
+                await _context.SaveChangesAsync();
+
+                return Ok("CSV data successfully imported.");
+            }
+            catch (Exception ex)
+            {
+                // Handle errors and log them
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }
-
-
-
