@@ -14,6 +14,7 @@ import { ExpenseInputComponent } from './expense-input/expense-input.component';
 import { ExpenseReportComponent } from './expense-report/expense-report.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CalculatorComponent } from './calculator/calculator.component';
+import { AccountComponent } from './account/account.component';
 // import { DragDropModule } from '@angular/cdk/drag-drop';
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { CalculatorComponent } from './calculator/calculator.component';
     ExpenseInputComponent,
     ExpenseReportComponent,
     NavbarComponent,
-    CalculatorComponent
+    CalculatorComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,

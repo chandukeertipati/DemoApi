@@ -1,0 +1,22 @@
+<!-- <div class="container account"  [@accountEnterLeave]="''"> -->
+    <div class="account-container fade-in">
+        <h2>User Account</h2>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="account-info">
+              <!-- Display user account information here -->
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="account-actions">
+              <h4>Account Actions</h4>
+              <button (click)="editProfile()" class="btn btn-primary">Edit Profile</button>
+              <button (click)="changePassword()" class="btn btn-primary">Change Password</button>
+              <button (click)="logout()" class="btn btn-danger">Logout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+  <!-- </div> -->
+  <!-- [ngClass]="{ 'active': true }" -->

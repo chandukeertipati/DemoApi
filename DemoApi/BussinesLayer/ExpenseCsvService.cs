@@ -14,5 +14,14 @@ namespace DemoApi.BussinesLayer
             var records = csv.GetRecords<T>();
             return records;
         }
+        public void WriteCSV<T>(List<T> records)
+        {
+            using (var writer = new StreamWriter("D:\\file.csv"))
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csv.WriteRecords(records);
+            }
+        }
+
     }
 }

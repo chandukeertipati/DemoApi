@@ -18,9 +18,18 @@ public class ExpenseCsvController : ControllerBase
 {
     private readonly IExpenseCsv _csvService;
 
+
     public ExpenseCsvController(IExpenseCsv csvService)
     {
         _csvService = csvService;
+    }
+
+    [HttpPost("write-employee-csv")]
+    public async Task<IActionResult> WriteEmployeeCSV([FromBody] List<ExpenseCsv> employees)
+    {
+        _csvService.WriteCSV<ExpenseCsv>(employees);
+
+        return Ok();
     }
 
     [HttpPost("read-employees-csv")]
@@ -31,5 +40,6 @@ public class ExpenseCsvController : ControllerBase
         return Ok(employees);
     }
 }
+
 
 
