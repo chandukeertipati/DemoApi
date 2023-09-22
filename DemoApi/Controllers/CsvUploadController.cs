@@ -11,36 +11,36 @@ namespace DemoApi.Controllers
     public class CsvUploadController : ControllerBase
     {
         private readonly ICsvUpload _Upload;
-    public CsvUploadController(ICsvUpload upload)
-    {
-        _Upload = upload;
-    }
-    [HttpPost("UploadFile")]
-    public async Task<IActionResult> UploadFile(IFormFile file)
-    {
-        if (CheckIfCSVFile(file))
+        public CsvUploadController(ICsvUpload upload)
         {
-            var fileUploader = await _Upload.WriteFile(file);
-            return Ok(fileUploader);
+            _Upload = upload;
         }
-        else
+        [HttpPost, Route("UploadFile")]
+        public async Task<IActionResult> UploadFile(IFormFile file)
         {
-            return BadRequest(new { message = "Invlaid File Extension" });
+            if (CheckIfCSVFile(file))
+            {
+                var fileUploader = await _Upload.WriteFile(file);
+                return Ok(fileUploader);
+            }
+            else
+            {
+                return BadRequest(new { message = "Invlaid File Extension" });
+            }
         }
-    }
-    //[HttpPost("UploadCsv")]
-    //public async Task<IActionResult> UploadCsv([FromBody] CsvUpload upload)
-    //{
-    //    try
-    //    {
-    //        //var uploadModel = await _Upload.GetUploadCSVAsync(upload);
-    //        //return Ok(uploadModel);
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        return BadRequest(ex);
-    //    }
-    //}
+        //[HttpPost("UploadCsv")]
+        //public async Task<IActionResult> UploadCsv([FromBody] CsvUpload upload)
+        //{
+        //    try
+        //    {
+        //        //var uploadModel = await _Upload.GetUploadCSVAsync(upload);
+        //        //return Ok(uploadModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex);
+        //    }
+        //}
         private bool CheckIfCSVFile(IFormFile file)
         {
             var extension = "." + file.FileName.Split('.')[file.FileName.Split('.').Length - 1];

@@ -32,9 +32,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 IServiceCollection services = new ServiceCollection();
 services.AddMvc();
 builder.Services.AddScoped<IExpenseCsv, ExpenseCsvService>();
-
-var app = builder.Build();
 services.AddTransient<ICsvUpload, CsvUpload>();
+
+//builder.Services.AddTransient<ICsvUpload, CsvUpload>();
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
