@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\API VS\\DemoApi\\DemoApi\\DemoApi.csproj": {}
+    "C:\\API VS\\DemoApi\\DemoApi\\DemoApi.csproj": {}
   },
   "projects": {
-    "c:\\API VS\\DemoApi\\DemoApi\\DemoApi.csproj": {
+    "C:\\API VS\\DemoApi\\DemoApi\\DemoApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\API VS\\DemoApi\\DemoApi\\DemoApi.csproj",
+        "projectUniqueName": "C:\\API VS\\DemoApi\\DemoApi\\DemoApi.csproj",
         "projectName": "DemoApi",
-        "projectPath": "c:\\API VS\\DemoApi\\DemoApi\\DemoApi.csproj",
+        "projectPath": "C:\\API VS\\DemoApi\\DemoApi\\DemoApi.csproj",
         "packagesPath": "C:\\Users\\ChanduKeertipati\\.nuget\\packages\\",
-        "outputPath": "c:\\API VS\\DemoApi\\DemoApi\\obj\\",
+        "outputPath": "C:\\API VS\\DemoApi\\DemoApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ChanduKeertipati\\AppData\\Roaming\\NuGet\\NuGet.Config",
