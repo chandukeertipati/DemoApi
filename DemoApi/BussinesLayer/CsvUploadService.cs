@@ -3,6 +3,10 @@ using DemoApi.BussinesLayer.Interfaces;
 using DemoApi.DbContext;
 using DemoApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace DemoApi.BussinesLayer
 {
@@ -13,15 +17,6 @@ namespace DemoApi.BussinesLayer
         {
             _context = context;
         }
-        //public async Task<string> GetUploadCSVAsync(CsvUploadService uploadModel)
-        //{
-        //    return "CSV File Uploaded";
-        //}
-
-        //public Task GetUploadCSVAsync(Models.CsvUpload upload)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public async Task<string> WriteFile(IFormFile file)
         {
@@ -46,21 +41,43 @@ namespace DemoApi.BussinesLayer
             {
                 return ex.Message;
             }
-
         }
-        public async Task<CsvUpload> UploadDetailsAsync(CsvUpload csvUpload)
+
+        public async Task<string> UploadDetailsAsync(string filePath)
         {
-            CsvUpload model = new CsvUpload();
-            model.Id = csvUpload.Id;
-            model.Name = csvUpload.Name;
-            model.Age = csvUpload.Age;
-            _context.CsvUploads.Add(model);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var csvData = await File.ReadAllTextAsync(filePath);
+                ;
+                var lines = csvData.Split('\n');
 
-            return model;
+                foreach (var line in lines)
+                {
+                    var values = line.Split(',');
 
+                    if (values.Length == 2)
+                    {
+                        string name = values[0].Trim();
+                        string age = values[1].Trim();
+                        //if (int.TryParse(values[1].Trim(), out int age))
+                        if (name != "name")
+                        {
+                            CsvUpload csvUpload = new CsvUpload();
+                            csvUpload.Name = name;
+                            csvUpload.Age = Convert.ToInt32(age);
+                            _context.CsvUploads.Add(csvUpload);
+                        }
+                    }                    
+                }
+                await _context.SaveChangesAsync();
+                return "Details UPloaded Successfully";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
-
 
     }
 }
+

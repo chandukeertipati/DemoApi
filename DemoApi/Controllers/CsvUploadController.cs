@@ -1,60 +1,44 @@
-﻿using DemoApi.Models;
+﻿using DemoApi.BussinesLayer.Interfaces;
+using DemoApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using System;
-using DemoApi.BussinesLayer.Interfaces;
+using System.IO;
+using System.Threading.Tasks;
+
 namespace DemoApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class CsvUploadController : ControllerBase
     {
-        private readonly ICsvUpload _Upload;
+        private readonly ICsvUpload _upload;
+
         public CsvUploadController(ICsvUpload upload)
         {
-            _Upload = upload;
+            _upload = upload;
         }
+
         [HttpPost, Route("UploadFile")]
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
             if (CheckIfCSVFile(file))
             {
-                var fileUploader = await _Upload.WriteFile(file);
-                return Ok(fileUploader);
+                var filePath = await _upload.WriteFile(file);
+                string sendFile = await _upload.UploadDetailsAsync(filePath);
+                //var csvData = await System.IO.File.ReadAllTextAsync(filePath);
+
+                //var result = await _upload.UploadDetailsAsync(csvData);
+
+                // Return the parsed CSV data in the response
+                return Ok(sendFile);
             }
             else
             {
-                return BadRequest(new { message = "Invlaid File Extension" });
+                return BadRequest(new { message = "Invalid File Extension" });
             }
         }
 
-        [HttpPost, Route("CsvFileDetails")]
-        public async Task<IActionResult> CreateCsvDetails([FromBody]CsvUpload upload)
-        {
-            try
-            {
-                var model = await _Upload.UploadDetailsAsync(upload);
-                return Ok(model);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        //[HttpPost("UploadCsv")]
-        //public async Task<IActionResult> UploadCsv([FromBody] CsvUpload upload)
-        //{
-        //    try
-        //    {
-        //        //var uploadModel = await _Upload.GetUploadCSVAsync(upload);
-        //        //return Ok(uploadModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex);
-        //    }
-        //}
         private bool CheckIfCSVFile(IFormFile file)
         {
             var extension = "." + file.FileName.Split('.')[file.FileName.Split('.').Length - 1];

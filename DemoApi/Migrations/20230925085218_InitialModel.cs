@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DemoApi.Migrations
 {
-    public partial class initialModel : Migration
+    public partial class InitialModel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -60,6 +60,22 @@ namespace DemoApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CsvUploads", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ExpenseCsv",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Month = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExpenseCsv", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -275,6 +291,9 @@ namespace DemoApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "CsvUploads");
+
+            migrationBuilder.DropTable(
+                name: "ExpenseCsv");
 
             migrationBuilder.DropTable(
                 name: "Expenses");

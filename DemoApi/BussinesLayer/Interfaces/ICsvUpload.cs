@@ -1,12 +1,11 @@
 ﻿using DemoApi.Models;
+using System.Threading.Tasks;
 
 namespace DemoApi.BussinesLayer.Interfaces
 {
     public interface ICsvUpload
     {
-        //public Task<string> GetUploadCSVAsync(CsvUploadService uploads);
-        //Task GetUploadCSVAsync(CsvUpload upload);
-        public Task<string> WriteFile(IFormFile file);
-        Task<CsvUpload> UploadDetailsAsync(CsvUpload upload);
+        Task<string> WriteFile(IFormFile file);
+        Task<string> UploadDetailsAsync(string csvData);
     }
 }
