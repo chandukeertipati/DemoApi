@@ -10,7 +10,7 @@ namespace DemoApi
         {
             var mapperConfig = new MapperConfiguration(config =>
             {
-                config.CreateMap<IExpenseCsv, ExpenseCsvService>().ReverseMap();
+                config.CreateMap<IExpenseCsvUpload, ExpenseCsvService>().ReverseMap();
                 config.CreateMap<ICsvUpload, CsvUploadService>().ReverseMap();
             });
             return mapperConfig;

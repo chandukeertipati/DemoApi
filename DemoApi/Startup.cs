@@ -49,7 +49,7 @@ namespace DemoApi
 
             
             //IMapper mapper = MapperConfig.RegisterMaps().CreateMapper();
-            services.AddTransient<IExpenseCsv, ExpenseCsvService>();
+            services.AddTransient<IExpenseCsvUpload, ExpenseCsvService>();
             services.AddTransient<ICsvUpload, CsvUploadService>();
             //services.AddAuthentication(opt =>
             //{

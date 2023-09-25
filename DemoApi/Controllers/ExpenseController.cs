@@ -1,98 +1,48 @@
-﻿using DemoApi.DbContext;
+﻿using DemoApi.BussinesLayer.Interfaces;
 using DemoApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace DemoApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ExpenseController : ControllerBase
+    public class ExpenseCsvUploadController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IExpenseCsvUpload _upload;
 
-        public ExpenseController(AppDbContext context)
+        public ExpenseCsvUploadController(IExpenseCsvUpload upload)
         {
-            _context = context;
+            _upload = upload;
         }
 
-        [HttpPost]
-        public IActionResult PostExpense(Expense expense)
+        [HttpPost, Route("UploadFile")]
+        public async Task<IActionResult> UploadFile(IFormFile file)
         {
-            _context.Expenses.Add(expense);
-            _context.SaveChanges();
-            return Ok();
-        }
-
-        [HttpGet]
-        public ActionResult<IEnumerable<Expense>> GetExpenses()
-        {
-            return Ok(_context.Expenses.ToList());
-        }
-
-        [HttpGet("{id}")]
-        public ActionResult<Expense> GetExpenseById(int id)
-        {
-            var expense = _context.Expenses.FirstOrDefault(e => e.Id == id);
-            if (expense == null)
+            if (CheckIfCSVFile(file))
             {
-                return NotFound();
+                var filePath = await _upload.WriteFile(file);
+                string sendFile = await _upload.UploadDetailsAsync(filePath);
+                //var csvData = await System.IO.File.ReadAllTextAsync(filePath);
+
+                //var result = await _upload.UploadDetailsAsync(csvData);
+
+                // Return the parsed CSV data in the response
+                return Ok(sendFile);
             }
-            return Ok(expense);
+            else
+            {
+                return BadRequest(new { message = "Invalid File Extension" });
+            }
         }
 
-        [HttpPut("{id}")]
-        public IActionResult PutExpense(int id, Expense expense)
+        private bool CheckIfCSVFile(IFormFile file)
         {
-            if (id != expense.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(expense).State = EntityState.Modified;
-
-            try
-            {
-                _context.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ExpenseExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public IActionResult DeleteExpense(int id)
-        {
-            var expense = _context.Expenses.Find(id);
-            if (expense == null)
-            {
-                return NotFound();
-            }
-
-            _context.Expenses.Remove(expense);
-            _context.SaveChanges();
-
-            return NoContent();
-        }
-
-        private bool ExpenseExists(int id)
-        {
-            return _context.Expenses.Any(e => e.Id == id);
+            var extension = "." + file.FileName.Split('.')[file.FileName.Split('.').Length - 1];
+            return (extension == ".csv" || extension == ".CSV");
         }
     }
 }

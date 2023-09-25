@@ -1,10 +1,11 @@
-﻿namespace DemoApi.BussinesLayer.Interfaces
+﻿using DemoApi.Models;
+using System.Threading.Tasks;
+
+namespace DemoApi.BussinesLayer.Interfaces
 {
-    public interface IExpenseCsv
+    public interface IExpenseCsvUpload
     {
-        public IEnumerable<T> ReadCSV<T>(Stream file);
-        void WriteCSV<T>(List<T> records);
-
-
+        Task<string> WriteFile(IFormFile file);
+        Task<string> UploadDetailsAsync(string csvData);
     }
 }
