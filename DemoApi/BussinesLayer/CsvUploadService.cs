@@ -1,24 +1,27 @@
 ﻿using AutoMapper;
 using DemoApi.BussinesLayer.Interfaces;
+using DemoApi.DbContext;
+using DemoApi.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DemoApi.BussinesLayer
 {
-    public class CsvUpload : ICsvUpload
+    public class CsvUploadService : ICsvUpload
     {
-        private readonly IMapper _mapper;
-        public CsvUpload(IMapper mapper)
+        private readonly AppDbContext _context;
+        public CsvUploadService(AppDbContext context)
         {
-            _mapper = mapper;
+            _context = context;
         }
-        public async Task<string> GetUploadCSVAsync(CsvUpload uploadModel)
-        {
-            return "CSV File Uploaded";
-        }
+        //public async Task<string> GetUploadCSVAsync(CsvUploadService uploadModel)
+        //{
+        //    return "CSV File Uploaded";
+        //}
 
-        public Task GetUploadCSVAsync(Models.CsvUpload upload)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task GetUploadCSVAsync(Models.CsvUpload upload)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public async Task<string> WriteFile(IFormFile file)
         {
@@ -40,8 +43,24 @@ namespace DemoApi.BussinesLayer
                 return path;
             }
             catch (Exception ex)
-            { }
-            return "";
+            {
+                return ex.Message;
+            }
+
         }
+        public async Task<CsvUpload> UploadDetailsAsync(CsvUpload csvUpload)
+        {
+            CsvUpload model = new CsvUpload();
+            model.Id = csvUpload.Id;
+            model.Name = csvUpload.Name;
+            model.Age = csvUpload.Age;
+            _context.CsvUploads.Add(model);
+            await _context.SaveChangesAsync();
+
+            return model;
+
+        }
+
+
     }
 }

@@ -28,6 +28,20 @@ namespace DemoApi.Controllers
                 return BadRequest(new { message = "Invlaid File Extension" });
             }
         }
+
+        [HttpPost, Route("CsvFileDetails")]
+        public async Task<IActionResult> CreateCsvDetails([FromBody]CsvUpload upload)
+        {
+            try
+            {
+                var model = await _Upload.UploadDetailsAsync(upload);
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         //[HttpPost("UploadCsv")]
         //public async Task<IActionResult> UploadCsv([FromBody] CsvUpload upload)
         //{
