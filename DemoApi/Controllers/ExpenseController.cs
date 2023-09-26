@@ -1,48 +1,119 @@
-﻿using DemoApi.BussinesLayer.Interfaces;
-using DemoApi.Models;
-using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.IO;
+using Microsoft.EntityFrameworkCore;
+using DemoApi.Models;
+using System.Linq;
 using System.Threading.Tasks;
+using DemoApi.DbContext;
 
 namespace DemoApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/expenses")]
     [ApiController]
-    public class ExpenseCsvUploadController : ControllerBase
+    public class ExpenseController : ControllerBase
     {
-        private readonly IExpenseCsvUpload _upload;
+        private readonly AppDbContext _context;
 
-        public ExpenseCsvUploadController(IExpenseCsvUpload upload)
+        public ExpenseController(AppDbContext context)
         {
-            _upload = upload;
+            _context = context;
         }
 
-        [HttpPost, Route("UploadFile")]
-        public async Task<IActionResult> UploadFile(IFormFile file)
+        // GET: api/expenses
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Expense>>> GetExpenses()
         {
-            if (CheckIfCSVFile(file))
-            {
-                var filePath = await _upload.WriteFile(file);
-                string sendFile = await _upload.UploadDetailsAsync(filePath);
-                //var csvData = await System.IO.File.ReadAllTextAsync(filePath);
-
-                //var result = await _upload.UploadDetailsAsync(csvData);
-
-                // Return the parsed CSV data in the response
-                return Ok(sendFile);
-            }
-            else
-            {
-                return BadRequest(new { message = "Invalid File Extension" });
-            }
+            var expenses = await _context.Expenses.ToListAsync();
+            return Ok(expenses);
         }
 
-        private bool CheckIfCSVFile(IFormFile file)
+        // GET: api/expenses/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Expense>> GetExpense(int id)
         {
-            var extension = "." + file.FileName.Split('.')[file.FileName.Split('.').Length - 1];
-            return (extension == ".csv" || extension == ".CSV");
+            var expense = await _context.Expenses.FindAsync(id);
+
+            if (expense == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(expense);
+        }
+
+        // POST: api/expenses
+        [HttpPost]
+        public async Task<ActionResult<Expense>> CreateExpense(Expense expense)
+        {
+            _context.Expenses.Add(expense);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetExpense), new { id = expense.Id }, expense);
+        }
+
+        // PUT: api/expenses/{id}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateExpense(int id, Expense expense)
+        {
+            if (id != expense.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(expense).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ExpenseExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        // DELETE: api/expenses/{id}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteExpense(int id)
+        {
+            var expense = await _context.Expenses.FindAsync(id);
+            if (expense == null)
+            {
+                return NotFound();
+            }
+
+            _context.Expenses.Remove(expense);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // GET: api/expenses/bycategory/{category}
+        [HttpGet("bycategory/{category}")]
+        public ActionResult<IEnumerable<Expense>> GetExpensesByCategory(string category)
+        {
+            var expensesByCategory = _context.Expenses.Where(e => e.Category == category).ToList();
+
+            if (expensesByCategory.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(expensesByCategory);
+        }
+
+        private bool ExpenseExists(int id)
+        {
+            return _context.Expenses.Any(e => e.Id == id);
         }
     }
 }

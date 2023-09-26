@@ -1,42 +1,77 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using CsvHelper;
-using DemoApi.DbContext;
+﻿using DemoApi.BussinesLayer.Interfaces;
 using DemoApi.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
-namespace CSVReaderWebAPI.Controllers
+namespace DemoApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CSVController : ControllerBase
+    public class ExpenseCsvUploadController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IExpenseCsvUpload _upload;
 
-        public CSVController(AppDbContext context)
+        public ExpenseCsvUploadController(IExpenseCsvUpload upload)
         {
-            _context = context;
+            _upload = upload;
+        }
+        [HttpGet, Route("GetExpenses")]
+        public async Task<IActionResult> GetExpenses()
+        {
+            try
+            {
+                var expenses = await _upload.GetExpenses();
+
+                return Ok(expenses);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        [HttpPost("[action]")]
-        public async Task<IActionResult> ReadEmployeeCSV()
+        [HttpGet, Route("GetByMonth")]
+        public async Task<IActionResult> GetExpensesByMonth(string month)
         {
-            var stream = Request.Body;
-            using (var reader = new StreamReader(stream))
-            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            try
             {
-                var employees =  csv.GetRecordsAsync<ExpenseCsv>();
-
-                _context.ExpenseCsv.AddRange((ExpenseCsv)employees);
-                await _context.SaveChangesAsync();
-
-                return Ok();
+                var result = await _upload.GetByMonth(month);
+                return Ok(result);
             }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost, Route("UploadFile")]
+        public async Task<IActionResult> UploadFile(IFormFile file)
+        {
+            if (CheckIfCSVFile(file))
+            {
+                var filePath = await _upload.WriteFile(file);
+                string sendFile = await _upload.UploadDetailsAsync(filePath);
+                //var csvData = await System.IO.File.ReadAllTextAsync(filePath);
+
+                //var result = await _upload.UploadDetailsAsync(csvData);
+
+                // Return the parsed CSV data in the response
+                return Ok(sendFile);
+            }
+            else
+            {
+                return BadRequest(new { message = "Invalid File Extension" });
+            }
+        }
+
+        private bool CheckIfCSVFile(IFormFile file)
+        {
+            var extension = "." + file.FileName.Split('.')[file.FileName.Split('.').Length - 1];
+            return (extension == ".csv" || extension == ".CSV");
         }
     }
 }

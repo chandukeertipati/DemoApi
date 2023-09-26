@@ -7,5 +7,7 @@ namespace DemoApi.BussinesLayer.Interfaces
     {
         Task<string> WriteFile(IFormFile file);
         Task<string> UploadDetailsAsync(string csvData);
+        Task<List<ExpenseCsv>> GetExpenses();
+        Task<ExpenseCsv> GetByMonth(string month);
     }
 }

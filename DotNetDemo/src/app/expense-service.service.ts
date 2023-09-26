@@ -21,7 +21,7 @@ export class ExpenseServiceService {
   // getExpenses() {
   //   return this.http.get(this.apiUrl);
   // }
-  private apiUrl = 'https://localhost:7232/api/Expense';
+  private apiUrl = 'https://localhost:7232/api/expenses';
 
   constructor(private http: HttpClient) {}
 

@@ -88,7 +88,18 @@ namespace DemoApi.BussinesLayer
                 return ex.Message;
             }
         }
+        public async Task<List<ExpenseCsv>> GetExpenses()
+        {
+                // Implement your logic for retrieving expenses here
+                var expenses = await _context.ExpenseCsv.ToListAsync();
+                return expenses;
+        }
 
+        public async Task<ExpenseCsv> GetByMonth(string month)
+        {
+            var result = await _context.ExpenseCsv.FirstOrDefaultAsync(x => x.Month.Equals(month));
+            return result;
+        }
     }
 }
 

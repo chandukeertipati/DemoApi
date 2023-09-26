@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class CsvUploadServiceService {
 
-  private apiUrl = 'https://localhost:7232/api/csv/upload';
+  private apiUrl = 'https://localhost:7232/api/ExpenseCsvUpload/UploadFile';
 
   constructor(private http: HttpClient) {}
 
@@ -17,5 +17,4 @@ export class CsvUploadServiceService {
 
     return this.http.post(this.apiUrl, formData);
   }
-  
 }

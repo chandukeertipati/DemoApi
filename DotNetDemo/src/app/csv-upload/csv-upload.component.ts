@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { CsvUploadServiceService } from '../csv-upload-service.service';
 import { Router } from '@angular/router';
 
@@ -13,7 +13,7 @@ export class CsvUploadComponent implements OnInit {
   uploadSuccess = false;
   uploadMessage = '';
 
-  constructor(private csvUploadService: CsvUploadServiceService,private router:Router) {}
+  constructor(private csvUploadService: CsvUploadServiceService, private router: Router, private renderer: Renderer2) { }
   ngOnInit(): void {
   }
   onFileSelected(event: any): void {
@@ -29,12 +29,28 @@ export class CsvUploadComponent implements OnInit {
       (response) => {
         this.uploadSuccess = true;
         this.uploadMessage = 'CSV file uploaded successfully.';
+        this.showAlertAndReset();
+        // alert("CSV Uploaded Successfully")
+        console.log("successfully submitted")
       },
       (error) => {
         this.uploadSuccess = false;
         this.uploadMessage = 'Error uploading CSV file.';
       }
     );
+  }
+  showAlertAndReset(): void {
+    alert('CSV Uploaded Successfully');
+    // Reset the form fields and message
+    this.selectedFile = null;
+    this.uploadSuccess = false;
+    this.uploadMessage = '';
+
+    // Reset the file input field (if needed)
+    const fileInput = document.querySelector('input[type="file"]');
+    if (fileInput) {
+      this.renderer.setProperty(fileInput, 'value', '');
+    }
   }
   goBack() {
     this.router.navigate(['/Navbar']); // Replace '/input' with the route to your input component

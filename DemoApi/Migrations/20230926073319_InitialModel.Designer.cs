@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DemoApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230925085218_InitialModel")]
+    [Migration("20230926073319_InitialModel")]
     partial class InitialModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,9 @@ namespace DemoApi.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Date")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -59,9 +62,6 @@ namespace DemoApi.Migrations
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
