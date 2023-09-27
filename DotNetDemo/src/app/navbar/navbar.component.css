@@ -101,4 +101,48 @@ body {
   background-color: black;
 }
 
-  
+
+
+
+
+.image-slides {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.slide {
+  width: 100%;
+  height: 300px; /* Adjust the height as needed */
+  display: none;
+  position: absolute;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Maintain aspect ratio and cover container */
+}
+
+/* Add animation for sliding effect */
+@keyframes slideAnimation {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -100%; /* Slide to the left */
+  }
+}
+
+/* Apply the animation to the slides */
+.slide {
+  animation: slideAnimation 5s linear infinite; /* Adjust the animation duration as needed */
+}
+
+/* Show the first slide initially */
+.slide:first-child {
+  display: block;
+}
+
+
+ 
