@@ -12,6 +12,7 @@ export class CsvUploadComponent implements OnInit {
   selectedFile: File | null = null;
   uploadSuccess = false;
   uploadMessage = '';
+  uploadedData: any[] = [];
 
   constructor(private csvUploadService: CsvUploadServiceService, private router: Router, private renderer: Renderer2) { }
   ngOnInit(): void {
@@ -52,6 +53,34 @@ export class CsvUploadComponent implements OnInit {
       this.renderer.setProperty(fileInput, 'value', '');
     }
   }
+
+  // getAllUploadedData(): void {
+  //   this.csvUploadService.getAllExpenses().subscribe(
+  //     (data) => {
+  //       this.uploadedData = data;
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching uploaded data:', error);
+  //     }
+  //   );
+  // }
+
+  getAllData(): void {
+    this.csvUploadService.getAllExpenses().subscribe(
+      (data) => {
+        console.log('API response data:', data);
+        this.uploadedData = data;
+      },
+      (error) => {
+        console.error('Error fetching uploaded data:', error);
+      }
+    );
+  }
+  
+
+
+  
+
   goBack() {
     this.router.navigate(['/Navbar']); // Replace '/input' with the route to your input component
   }

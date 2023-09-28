@@ -17,4 +17,14 @@ export class CsvUploadServiceService {
 
     return this.http.post(this.apiUrl, formData);
   }
+
+  // getAllExpenses(): Observable<any[]> {
+  //   return this.http.get<any[]>(`${this.apiUrl}/GetExpenses`);
+  // }
+  getAllExpenses(): Observable<any[]> {
+    return this.http.get<any[]>(`https://localhost:7232/api/ExpenseCsvUpload/GetExpenses`);
+  }
+
+
+
 }
