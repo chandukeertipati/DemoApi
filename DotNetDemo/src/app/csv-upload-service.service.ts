@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class CsvUploadServiceService {
 
   private apiUrl = 'https://localhost:7232/api/ExpenseCsvUpload/UploadFile';
+  private apiUrl1 = 'https://localhost:7232/api/ExpenseCsvUpload/GetExpenses';
 
   constructor(private http: HttpClient) {}
 
@@ -17,14 +18,8 @@ export class CsvUploadServiceService {
 
     return this.http.post(this.apiUrl, formData);
   }
-
-  // getAllExpenses(): Observable<any[]> {
-  //   return this.http.get<any[]>(`${this.apiUrl}/GetExpenses`);
-  // }
-  getAllExpenses(): Observable<any[]> {
-    return this.http.get<any[]>(`https://localhost:7232/api/ExpenseCsvUpload/GetExpenses`);
+  getExpenses(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl1);
   }
-
-
 
 }

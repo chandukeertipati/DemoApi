@@ -7,28 +7,27 @@
     <p *ngIf="uploadSuccess">{{ uploadMessage }}</p>
     <button class="input-button" (click)="goBack()">Go Back</button>
   </div>
-  <div *ngIf="uploadedData.length > 0">
-    <h2>Uploaded CSV Data</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Month</th>
-          <th>Date</th>
-          <th>Amount</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let dataRow of uploadedData">
-          <td>{{ dataRow.Month }}</td>
-          <td>{{ dataRow.Date }}</td>
-          <td>{{ dataRow.Amount }}</td>
-          <td>{{ dataRow.Description }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
   <div>
-    <button class="input-button" (click)="getAllData()">Get All Data</button>
-  </div>
-  
+  <button class="input-button" (click)="fetchExpenses()">Fetch Expenses Data</button>
+</div>
+<div>
+  <h2>Expense List</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Month</th>
+        <th>Date</th>
+        <th>Amount</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let expense of expenses">
+        <td>{{ expense.Month }}</td>
+        <td>{{ expense.Date }}</td>
+        <td>{{ expense.Amount }}</td>
+        <td>{{ expense.Description }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
